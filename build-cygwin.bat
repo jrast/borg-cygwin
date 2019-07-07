@@ -49,6 +49,9 @@ cd %CYGBUILD%
 
 copy bin\borg %CYGPATH%\bin
 copy bin\borgmatic %CYGPATH%\bin
+copy bin\validate-borgmatic-config %CYGPATH%\bin
+copy bin\upgrade-borgmatic-config %CYGPATH%\bin
+copy bin\generate-borgmatic-config %CYGPATH%\bin
 copy bin\b2 %CYGPATH%\bin
 for /d %%d in (lib\python3.6\site-packages) do xcopy /s /y %%d %CYGPATH%\%%d\
 
