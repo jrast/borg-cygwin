@@ -1,7 +1,6 @@
 version: 1.0.{build}
 environment:
   matrix:
-  - ARCH: x86
   - ARCH: x86_64
 build_script:
 - cmd: >-
