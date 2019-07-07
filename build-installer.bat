@@ -12,11 +12,14 @@ set NSISV=nsis-3.04
 
 set OURPATH=%cd%
 set CYGPATH=%OURPATH%\Borg-installer
-set MAKENSIS="%OURPATH%\%NSISV%\makensis.exe"
 
-IF NOT EXIST "%OURPATH%\%NSISV%.zip" GOTO ERROR
+IF EXIST "C:\Program Files (x86)\NSIS" (
+    set MAKENSIS="C:\Program Files (x86)\NSIS\makensis.exe"
+) ELSE (
+    IF NOT EXIST "%OURPATH%\%NSISV%.zip" GOTO ERROR
+    IF NOT EXIST "%OURPATH%\%NSISV%" Call :UnZipFile "%OURPATH%" "%OURPATH%\%NSISV%.zip"
+)
 
-IF NOT EXIST "%OURPATH%\%NSISV%" Call :UnZipFile "%OURPATH%" "%OURPATH%\%NSISV%.zip"
 
 REM --- Automatic Borg version check
 REM --- Can't use pipe directly in command, workaround with temp file
@@ -49,10 +52,8 @@ exit /b
 
 :ERROR
 echo Error missing %NSISV%.zip in folder
-pause
 exit
 
 :CPUERROR
 echo Error missing firt argument "x86" or "x86_64"
-pause
 exit
