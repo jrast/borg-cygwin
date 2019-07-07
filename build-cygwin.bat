@@ -23,7 +23,7 @@ REM --- Install build version of CygWin in a subfolder
 set OURPATH=%cd%
 set CYGBUILD=%OURPATH%\CygWin
 set CYGMIRROR=http://mirrors.kernel.org/sourceware/cygwin/
-set BUILDPKGS=python3,python3-devel,python3-setuptools,binutils,gcc-g++,libssl,libssl-devel,git,make,openssh,liblz4-devel,liblz4_1,libzstd1,libzstd-devel,libcrypt-devel
+set BUILDPKGS=python3,python3-devel,binutils,gcc-g++,libssl,libssl-devel,git,make,openssh,liblz4-devel,liblz4_1,libzstd1,libzstd-devel,libcrypt-devel
 
 %CYGSETUP% -q -B -o -n -g -R %CYGBUILD% -L -D -l %OURPATH% -s %CYGMIRROR% -P %BUILDPKGS%
 
@@ -32,7 +32,7 @@ REM --- Build borgbackup
 cd %CYGBUILD%
 bin\bash --login -c 'easy_install-3.6 pip'
 bin\bash --login -c 'pip install -U pip'
-bin\bash --login -c 'pip install -U borgbackup'
+bin\bash --login -c 'pip install -U borgbackup borgmatic'
 cd %OURPATH%
 
 REM --- Install release version of CygWin in a subfolder
@@ -55,9 +55,8 @@ REM --- Copy built packages into release path
 cd %CYGBUILD%
 
 copy bin\borg %CYGPATH%\bin
-for /d %%d in (lib\python3.6\site-packages\borg*) do xcopy /s /y %%d %CYGPATH%\%%d\
-for /d %%d in (lib\python3.6\site-packages\msgpack*) do xcopy /s /y %%d %CYGPATH%\%%d\
-for /d %%d in (lib\python3.6\site-packages\pkg_resources) do xcopy /s /y %%d %CYGPATH%\%%d\
+copy bin\borgmatic %CYGPATH%\bin
+for /d %%d in (lib\python3.6\site-packages) do xcopy /s /y %%d %CYGPATH%\%%d\
 
 REM --- Remove all locales except EN (borg does not use them)
 
