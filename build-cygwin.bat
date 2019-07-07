@@ -25,7 +25,7 @@ REM --- Build borgbackup
 cd %CYGBUILD%
 bin\bash --login -c 'easy_install-3.6 pip'
 bin\bash --login -c 'pip install -U pip'
-bin\bash --login -c 'pip install -U borgbackup borgmatic'
+bin\bash --login -c 'pip install -U borgbackup borgmatic b2'
 cd %OURPATH%
 
 REM --- Install release version of CygWin in a subfolder
@@ -49,6 +49,7 @@ cd %CYGBUILD%
 
 copy bin\borg %CYGPATH%\bin
 copy bin\borgmatic %CYGPATH%\bin
+copy bin\b2 %CYGPATH%\bin
 for /d %%d in (lib\python3.6\site-packages) do xcopy /s /y %%d %CYGPATH%\%%d\
 
 REM --- Remove all locales except EN (borg does not use them)
