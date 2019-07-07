@@ -4,7 +4,7 @@ setlocal
 REM --- Need cpu version at first parameter
 if "%~1"=="" GOTO CPUERROR
 
-REM --- NSIS zip must be in folder!  Get NSIS from http://nsis.sourceforge.net/Download
+REM --- NSIS subfolder must be present!  Get NSIS from http://nsis.sourceforge.net/Download
 REM https://sourceforge.net/projects/nsis/files/NSIS%203/3.04/nsis-3.04.zip/download
 
 REM --- NSIS version
@@ -16,8 +16,8 @@ set CYGPATH=%OURPATH%\Borg-installer
 IF EXIST "C:\Program Files (x86)\NSIS" (
     set MAKENSIS="C:\Program Files (x86)\NSIS\makensis.exe"
 ) ELSE (
-    IF NOT EXIST "%OURPATH%\%NSISV%.zip" GOTO ERROR
-    IF NOT EXIST "%OURPATH%\%NSISV%" Call :UnZipFile "%OURPATH%" "%OURPATH%\%NSISV%.zip"
+    IF NOT EXIST "%OURPATH%\%NSISV%" GOTO ERROR
+    set MAKENSIS="%OURPATH%\%NSISV%\makensis.exe"
 )
 
 
@@ -34,24 +34,9 @@ cd %OURPATH%
 
 goto :EOF
 
-:UnZipFile <ExtractTo> <newzipfile>
-set vbs="%temp%\_.vbs"
-if exist %vbs% del /f /q %vbs%
->%vbs%  echo Set fso = CreateObject("Scripting.FileSystemObject")
->>%vbs% echo If NOT fso.FolderExists(%1) Then
->>%vbs% echo fso.CreateFolder(%1)
->>%vbs% echo End If
->>%vbs% echo set objShell = CreateObject("Shell.Application")
->>%vbs% echo set FilesInZip=objShell.NameSpace(%2).items
->>%vbs% echo objShell.NameSpace(%1).CopyHere(FilesInZip)
->>%vbs% echo Set fso = Nothing
->>%vbs% echo Set objShell = Nothing
-cscript //nologo %vbs%
-if exist %vbs% del /f /q %vbs%
-exit /b
 
 :ERROR
-echo Error missing %NSISV%.zip in folder
+echo Error missing %NSISV% in folder
 exit
 
 :CPUERROR
