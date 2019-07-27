@@ -1,15 +1,13 @@
 @echo off
 setlocal
 
-REM --- Need cpu version at first parameter
-if "%~1"=="" GOTO CPUERROR
-
 REM --- NSIS subfolder must be present!  Get NSIS from http://nsis.sourceforge.net/Download
 REM https://sourceforge.net/projects/nsis/files/NSIS%203/3.04/nsis-3.04.zip/download
 
 REM --- NSIS version
 set NSISV=nsis-3.04
 
+SET ARCH=x86_64
 set OURPATH=%cd%
 set CYGPATH=%OURPATH%\Borg-installer
 
@@ -30,7 +28,7 @@ FOR /F "tokens=*" %%a in ('bin\bash --login -c 'cut -d " " -f 2 /borg-version'')
 bin\bash --login -c 'rm /borg-version'
 cd %OURPATH%
 
-%MAKENSIS% /DARCH=%1 /DVERSION=%BVERSION% /V4 nsis-installer.nsi
+%MAKENSIS% /DARCH=%ARCH% /DVERSION=%BVERSION% /V4 nsis-installer.nsi
 
 goto :EOF
 
@@ -39,6 +37,3 @@ goto :EOF
 echo Error missing %NSISV% in folder
 exit
 
-:CPUERROR
-echo Error missing firt argument "x86" or "x86_64"
-exit

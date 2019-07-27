@@ -1,9 +1,6 @@
 @echo off
 
-REM --- Need version at first parameter
-if "%~1"=="" GOTO ERROR
-
-set CYGSETUP=%1
+set CYGSETUP=setup-x86_64.exe
 set TARGETPATH=.
 set POWERSHELL=%windir%\System32\WindowsPowerShell\v1.0\powershell.exe
 
